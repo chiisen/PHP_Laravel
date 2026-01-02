@@ -21,14 +21,23 @@ Windows 11 + WSL2 + Docker Desktop
 
 ## 快速啟動
 
-1. **啟動容器**：
-   在根目錄執行：
-   ```bash
-   docker compose up -d --build
-   ```
+### 1. 啟動模式切換
 
-2. **進入 Laravel 環境**：
-   存取：[http://localhost:8080](http://localhost:8080)
+你可以根據練習需要決定是否啟動 MySQL（以節省電腦資源）：
+
+- **輕量模式 (不帶 MySQL)**：
+  ```bash
+  docker compose up -d
+  ```
+
+- **完整模式 (啟動 MySQL + Adminer)**：
+  ```bash
+  docker compose --profile mysql up -d
+  ```
+
+### 2. 重啟或進入環境
+- **進入介面**：[http://localhost:8080](http://localhost:8080)
+- **停止所有服務**：`docker compose down`
 
 3. **使用 Artisan 與 Tinker**：
    ```bash
