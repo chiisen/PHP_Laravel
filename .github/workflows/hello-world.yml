@@ -1,0 +1,22 @@
+name: Hello World Exercise
+
+# 觸發條件：當推送到任何分支時觸發
+on: [push]
+
+jobs:
+  # 定義一個名為 say-hello 的工作
+  say-hello:
+    # 使用 GitHub 提供的最新 Ubuntu 映像檔
+    runs-on: ubuntu-latest
+
+    steps:
+      # 第一步：顯示簡單的文字
+      - name: Run a one-line script
+        run: echo "Hello GitHub Actions! 這是我的第一個練習。"
+
+      # 第二步：顯示多行訊息與環境資訊
+      - name: Run a multi-line script
+        run: |
+          echo "目前執行的工作名稱是: ${{ github.workflow }}"
+          echo "觸發者是: ${{ github.actor }}"
+          echo "這是在 ${{ runner.os }} 伺服器上運行的"

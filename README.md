@@ -191,6 +191,21 @@ docker exec -it php-learn php artisan make:model Post
 
 ---
 
+## 🤖 GitHub Actions 學習歷程
+
+本專案包含一系列 GitHub Actions 練習，用於學習自動化工作流 (CI/CD)。
+
+### 練習 1：Hello World (基礎語法與觸發)
+*   **檔案路徑**：`.github/workflows/hello-world.yml`
+*   **學習重點**：
+    *   `on: [push]`：設定觸發條件。
+    *   `jobs` 與 `steps`：定義工作流結構。
+    *   `run`：執行 Shell 指令。
+    *   `${{ github.actor }}`：使用 GitHub Actions 內建變數。
+*   **驗證方式**：推送代碼至 GitHub 後，在 Repo 的 **Actions** 標籤頁查看執行結果。
+
+---
+
 ## 學習建議
 
 - **路由練習**：修改 `src/routes/web.php` 練習定義 API 與網頁。
