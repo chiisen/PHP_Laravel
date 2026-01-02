@@ -1,0 +1,25 @@
+version: "3.9"
+
+services:
+  php:
+    build:
+      context: .
+      dockerfile: ./docker/php/Dockerfile
+    container_name: php-learn
+    working_dir: /var/www/html
+    volumes:
+      - ./src:/var/www/html
+      - ./php-conf/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  nginx:
+    image: nginx:1.27-alpine
+    container_name: nginx-learn
+    ports:
+      - "8080:80" # 瀏覽器開 http://localhost:8080
+    volumes:
+      - ./src:/var/www/html
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - php
