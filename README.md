@@ -226,6 +226,7 @@ docker exec -it php-learn php artisan make:model Post
 *   **檔案路徑**：`.github/workflows/main-ci.yml`
 *   **學習重點**：
     *   **工作流整合**：將 Lint 與 Test 串聯，確保「先正確格式化，再通過測試」。
+    *   `on: workflow_dispatch`：改為手動觸發，方便學習階段自主控制執行時機。
     *   **條件執行 (`if`)**：使用 `if: success()` 或 `if: failure()` 根據結果執行不同步驟。
     *   **Secrets 管理**：學習透過 GitHub Secrets 保護私鑰（如 Telegram Bot Token）。
     *   **第三方 Action**：使用 `appleboy/telegram-action` 快速達成通知功能。
