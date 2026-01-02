@@ -209,9 +209,18 @@ docker exec -it php-learn php artisan make:model Post
 *   **學習重點**：
     *   `uses: actions/checkout@v4`：學習如何引用現成的 Action 插件。
     *   `shivammathur/setup-php@v2`：設定特定的 PHP 版本。
-    *   `working-directory`：當 Laravel 在子目錄 (如 `src/`) 時，如何指定執行路徑。
+    *   `on: workflow_dispatch`：改為手動觸發，避免每次 Push 都執行檢查（雖然這在正式專案中通常是自動的）。
     *   **CI 概念**：讓機器幫你檢查代碼規範，不符規範的工作流會變為紅色（失敗）。
 *   **驗證方式**：推送後查看 Actions，試著故意寫出排版醜陋的 PHP 代碼（如亂點空格），看看 Action 是否會報錯。
+
+### 練習 3：Laravel Tests (自動化測試與 Service 容器)
+*   **檔案路徑**：`.github/workflows/laravel-tests.yml`
+*   **學習重點**：
+    *   `services`：學習如何在 Action 中啟動 MySQL 虛擬容器。
+    *   `health-cmd`：確保資料庫啟動完成後才開始執行步驟。
+    *   `env` (環境變數)：覆蓋 Laravel 的 `.env` 設定，讓它連結到 Action 的虛擬資料庫。
+    *   **CI 流程整合**：Checkout -> Setup PHP -> Install -> Migrate -> Test。
+*   **驗證方式**：手動執行 Action，觀察它是否成功啟動 MySQL、跑完 Migration 並通過測試。
 
 ---
 

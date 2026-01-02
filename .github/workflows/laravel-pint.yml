@@ -1,11 +1,7 @@
 name: Lint (Laravel Pint)
 
-# 觸發條件：當推送到 main 分支，或發起 Pull Request 時觸發
-on:
-  push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+# 觸發條件：改為手動觸發
+on: workflow_dispatch
 
 jobs:
   laravel-pint:
