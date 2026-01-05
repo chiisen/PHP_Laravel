@@ -289,3 +289,89 @@ docker exec -it php-learn php artisan tinker --execute="App\Models\User::factory
 - 重啟服務：`docker compose restart`
 - 查看日誌：`docker compose logs -f`
 - 重新建立環境：`docker compose up -d --build --force-recreate`
+
+## 單元測試
+- 停止所有服務
+```bash
+docker compose down
+```
+- 重新啟動服務
+```bash
+docker compose up -d
+```
+- 執行單元測試
+記得執行(需要 Xdebug)
+```bash
+docker exec -it php-learn php artisan test
+```
+- 單元測試報告
+```bash
+ PASS  Tests\Unit\ExampleTest
+  ✓ that true is true                                                                                                  0.29s  
+
+   PASS  Tests\Feature\ExampleTest
+  ✓ the application returns a successful response                                                                     11.01s  
+
+  Tests:    2 passed (2 assertions)
+  Duration: 15.63s
+```
+
+測試目錄: src/tests/ 【包含 Feature(功能測試) 和 Unit(單元測試) 子目錄】
+
+1. 單元測試 (Unit Tests)
+- 位置: src/tests/Unit
+- 用途: 測試單一函式或類別的邏輯，不依賴資料庫或 HTTP 請求。適合測試純邏輯運算。
+- 建立指令:
+```bash
+docker-compose exec php php artisan make:test UserTest --unit
+```
+2. 功能測試 (Feature Tests)
+- 位置: src/tests/Feature
+- 用途: 測試完整的功能流程，例如 API 請求、資料庫存取、頁面渲染等。這是最常用的測試類型。
+- 建立指令:
+```bash
+docker-compose exec php php artisan make:test UserAuthTest
+```
+4. 實戰範例
+假設我們要測試一個簡單的 API 端點。您可以建立一個新的測試檔案：
+
+1. 建立測試檔案: 在終端機執行：
+```bash
+docker-compose exec php php artisan make:test HealthCheckTest
+```
+編寫測試內容: 編輯新產生的 src/tests/Feature/HealthCheckTest.php：
+```php
+<?php
+namespace Tests\Feature;
+// use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
+class HealthCheckTest extends TestCase
+{
+    /**
+     * 測試首頁是否能正常存取
+     */
+    public function test_the_application_returns_a_successful_response(): void
+    {
+        $response = $this->get('/');
+        $response->assertStatus(200);
+    }
+}
+```
+3. 執行該特定測試:
+```bash
+docker-compose exec php php artisan test --filter HealthCheckTest
+```
+4. 常見問題與技巧
+- 測試資料庫: 執行測試時，Laravel 通常會重置資料庫。請確保您的 phpunit.xml 或是 .env.testing 有正確配置資料庫連線，通常建議使用 SQLite 記憶體資料庫來加速測試（在 phpunit.xml 中將 DB_CONNECTION 設為 sqlite 並使用 :memory:）。
+- 覆蓋率報告: 如果您想看測試覆蓋率（需 Xdebug 支援），可以加 --coverage 參數：  
+Xdebug 的設定檔中要開啟 coverage 模式。  
+php-conf/xdebug.ini 要啟用它。
+1. 重啟 PHP 容器： 設定檔修改後，必須重啟容器才會重新載入 PHP 設定。
+```bash
+docker-compose restart php
+```
+2. 再次執行測試覆蓋率指令：
+```bash
+docker-compose exec php php artisan test --coverage
+```
+
