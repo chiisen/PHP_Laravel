@@ -307,6 +307,29 @@ docker exec -it php-learn php artisan make:model Post
 3. **路由保護 (`api.php`)**：
    - 使用 `Route::middleware('auth:sanctum')` 群組保護需要登入才能存取的路徑。
 
+#### 🔹 網頁版測試介面：
+除了使用 REST Client，本專案也提供了一個現代化的網頁介面供您直接測試：
+- **URL**: [http://localhost:8080/login](http://localhost:8080/login)
+- **功能**: 直接在瀏覽器進行註冊、登入、查看 Token 與登出演算。
+
+#### 🔹 前端實作流程與原理說明：
+認證頁面採用了 **前後端分離 (Decoupled Architecture)** 的設計思維，其核心運作邏輯如下：
+
+1.  **非同步請求 (AJAX/Fetch API)**：
+    - 前端不透過傳統的 HTML Form 表單直接跳轉，而是使用 JavaScript 的 `fetch()` 函式發送非同步請求。
+    - **優點**：使用者不需要重新整理頁面即可獲得回饋（例如顯示錯誤訊息或動態顯示 Token）。
+2.  **狀態儲存 (localStorage)**：
+    - 當後端 API 驗證成功並回傳 `token` 之後，前端會使用 `localStorage.setItem('sanctum_token', data.token)` 將金鑰永久存儲在瀏覽器中。
+    - 這樣即使關閉網頁，下次開啟時 JavaScript 也能自動讀取 Token 進行自動登入。
+3.  **認證標頭 (Authorization Header)**：
+    - 當前端需要存取受保護的 API（如 `/api/user`）時，會在請求的標頭（Header）中加入：
+      `Authorization: Bearer <儲存的 Token>`
+    - 後端的 `auth:sanctum` 中間層會解析此標頭，從資料庫中對比是否存在有效的 Token，進而識別使用者身份。
+4.  **安全登出**：
+    - 登出時，前端會同時執行兩件事：
+        1.  發送請求給後端 `/api/logout`，讓資料庫中的該組 Token 失效。
+        2.  使用 `localStorage.removeItem()` 清除瀏覽器的本地存儲，確保本地不再持有過期的金鑰。
+
 #### 🔹 測試指引：
 使用 **VS Code REST Client** 開啟 `local.http` 進行以下測試：
 
