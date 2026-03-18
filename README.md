@@ -524,3 +524,6 @@ docker-compose exec php php artisan test --coverage
 ## 本地同步 GitHub
 [git同步備份branch](docs/git同步備份branch.md)
 
+## 📚 Laravel 學習筆記
+[API 開發目錄結構詳解](docs/laravel-api-目錄結構.md) — 說明新增 API 時各目錄（Routes、Controllers、Requests、Resources、Models、Services、Seeders、Migrations）的職責與請求流程，並包含新手必知的開發重點（HTTP 狀態碼、Mass Assignment、Middleware、軟刪除、除錯技巧等）。
+
