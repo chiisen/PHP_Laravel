@@ -530,6 +530,8 @@ docker-compose exec php php artisan test --coverage
 ## 🔧 Artisan Tinker 工具指南
 [Artisan Tinker 完整教學](docs/Artisan-Tinker-教學指南.md) — 詳細介紹 Laravel 互動式命令列工具的使用方法、實用範例與進階功能，包含 Eloquent 查詢、診斷技巧和其他實用的開發除錯方式。
 
+[Artisan Tinker 進階資料庫管理教學](docs/Artisan-Tinker-進階資料庫管理教學指南.md) — 深入探討如何使用 Tinker 進行資料庫管理，包含外鍵限制處理、批量資料清空、資料表重置和安全操作等高級技巧，適合需要進行複雜資料庫維護的開發者。
+
 ## 🖥️ Inertia 頁面開發指南
 [Inertia 頁面開發完整教學](docs/Inertia-頁面開發教學指南.md) — 詳細介紹 Laravel 與前端框架(Vue/React)整合的 Inertia 開發模式，包含安裝設定、實作範例、資料共享、表單處理和效能優化等完整指南。
 
