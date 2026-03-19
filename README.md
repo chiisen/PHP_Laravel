@@ -527,3 +527,6 @@ docker-compose exec php php artisan test --coverage
 ## 📚 Laravel 學習筆記
 [API 開發目錄結構詳解](docs/laravel-api-目錄結構.md) — 說明新增 API 時各目錄（Routes、Controllers、Requests、Resources、Models、Services、Seeders、Migrations）的職責與請求流程，並包含新手必知的開發重點（HTTP 狀態碼、Mass Assignment、Middleware、軟刪除、除錯技巧等）。
 
+## 🔧 Artisan Tinker 工具指南
+[Artisan Tinker 完整教學](docs/Artisan-Tinker-教學指南.md) — 詳細介紹 Laravel 互動式命令列工具的使用方法、實用範例與進階功能，包含 Eloquent 查詢、診斷技巧和其他實用的開發除錯方式。
+
