@@ -46,6 +46,51 @@ Windows 11 + WSL2 + Docker Desktop
 > ⚠️ **注意：為什麼只打 `docker compose down` 會殘留 MySQL？**
 > 因為 MySQL 目錄被歸類在 `mysql` profile 中。如果你在啟動時使用了 profile，但關閉時沒加，Docker 會認定你「只想關閉預設服務 (PHP/Nginx)」，從而導致 MySQL 容器繼續在背景執行。
 
+### 🔸 常見警告：Network Resource is still in use
+
+執行 `docker compose down` 後若看到：
+```
+[+] down 1/1
+ ! Network php_laravel_default Resource is still in use
+```
+
+**原因**：
+- 還有容器（通常是 MySQL）在使用該網路
+- 通常發生在「啟動時用了 `--profile mysql`，但關閉時沒加」的情況
+
+**檢查是否有殘留容器**：
+```bash
+# 查看所有執行中的容器
+docker ps
+
+# 查看所有容器（含已停止）
+docker ps -a --filter "name=php_laravel"
+```
+
+**解決方案**：
+
+1. **完整關閉（推薦）**：
+   ```bash
+   # 一定要加上 --profile mysql
+   docker compose --profile mysql down
+   ```
+
+2. **強制移除懸掛網路**（如警告持續出現）：
+   ```bash
+   docker network rm php_laravel_default
+   ```
+
+**最佳實踐**：
+```bash
+# 啟動完整環境（含 MySQL）
+docker compose --profile mysql up -d
+
+# 關閉完整環境（必須加 profile）
+docker compose --profile mysql down
+```
+
+> 💡 **記住**：**啟動時用了什麼 profile，關閉時就要加上相同的 profile**，這樣才能確保所有資源都被正確清理。
+
 3. **使用 Artisan 與 Tinker**：
    ```bash
    # 進入 Tinker 練習語法
