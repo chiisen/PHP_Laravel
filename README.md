@@ -350,6 +350,40 @@ docker exec -it php-learn php artisan make:model Post
 
 ---
 
+### 🔑 測試帳號 (Test Accounts)
+
+本專案已內建測試帳號 Seeder，方便快速建立登入用的測試帳號。
+
+#### 🔹 執行方式
+
+```bash
+# 執行所有 Seeder（包含測試帳號）
+docker exec -it php-learn php artisan db:seed
+
+# 或單獨執行測試帳號 Seeder
+docker exec -it php-learn php artisan db:seed --class=TestUserSeeder
+```
+
+#### 🔹 預設帳號清單
+
+| 角色 | Email | 密碼 |
+|------|-------|------|
+| **Admin** | `admin@test.com` | `password123` |
+| **User** | `user@test.com` | `password123` |
+
+#### 🔹 相關檔案
+
+- **Seeder 位置**：`src/database/seeders/TestUserSeeder.php`
+- **入口設定**：`src/database/seeders/DatabaseSeeder.php`
+
+#### 🔹 注意事項
+
+- 使用 `updateOrCreate` 機制，重複執行不會產生重複帳號
+- 執行後會自動設定 `email_verified_at` 為當前時間
+- 密碼使用 `Hash::make()` 加密儲存
+
+---
+
 ## 🚀 偵錯方法 (Xdebug 詳解)
 
 本環境已經針對 Laravel 優化了偵錯設定，支援中斷點 (Breakpoint) 與變數監看。
