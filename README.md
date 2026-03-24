@@ -57,6 +57,85 @@ Windows 11 + WSL2 + Docker Desktop
 
 ---
 
+## 🔑 APP_KEY 設定 (重要)
+
+### ⚠️ 常見問題：500 Internal Server Error
+
+啟動專案後若遇到頁面顯示 **500 錯誤**，可能是缺少 `APP_KEY`。
+
+### 🔍 診斷步驟
+
+**步驟 1：查看 Laravel 日誌**
+
+```bash
+# 查看最後 100 行日誌
+docker exec php-learn tail -100 /var/www/html/storage/logs/laravel.log
+
+# 或持續監控日誌
+docker exec php-learn tail -f storage/logs/laravel.log
+```
+
+**步驟 2：確認錯誤訊息**
+
+若看到以下錯誤：
+```
+production.ERROR: No application encryption key has been specified.
+{"exception":"[object] (Illuminate\\Encryption\\MissingAppKeyException(code: 0): 
+No application encryption key has been specified.
+```
+
+這表示 `.env` 檔案中的 `APP_KEY` 為空或未設定。
+
+### 🔧 解決方案
+
+**步驟 1：確認 `.env` 檔案存在**
+
+```bash
+# 如果 src/.env 不存在，從範例檔複製
+docker exec -it php-learn cp .env.example .env
+```
+
+**步驟 2：生成 APP_KEY**
+
+```bash
+# 自動生成並寫入 .env 檔案
+docker exec -it php-learn php artisan key:generate
+```
+
+執行後會看到：
+```
+Application key [base64:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx] set successfully.
+```
+
+**步驟 3：驗證設定**
+
+```bash
+# 檢查 .env 中的 APP_KEY 是否已設定
+docker exec php-learn grep APP_KEY .env
+```
+
+應看到類似：
+```
+APP_KEY=base64:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx=
+```
+
+**步驟 4：重新整理頁面**
+
+完成後重新整理瀏覽器，網站應可正常運作。
+
+### 📖 為什麼需要 APP_KEY？
+
+| 用途 | 說明 |
+|------|------|
+| **Session 加密** | 保護使用者工作階段資料 |
+| **Cookie 加密** | 加密透過 Cookie 傳輸的敏感資訊 |
+| **CSRF 保護** | 生成表單防護令牌 |
+| **資料加密** | Laravel 的 `Crypt` facade 需要此金鑰 |
+
+> 💡 **注意**：`APP_KEY` 是專案級密鑰，不應在團隊間共享。每個開發環境應有自己的 key。生產環境務必使用獨一無二的 key。
+
+---
+
 ## 🗄️ 資料庫管理與切換
 
 本環境支援 **MySQL** 與 **SQLite** 兩種模式，你可以隨時切換。
