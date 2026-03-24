@@ -14,3 +14,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - 新增 `AuthController` 處理 `login` 與 `logout` 請求。
 - 在 `User` 模型中啟用 `HasApiTokens` 以支援 API 認證。
 - 更新 `routes/api.php` 加入認證相關路由。
+
+### Changed
+- **README.md 結構重組**：
+  - 新增 **🚀 Quick Start (快速開始)** 區段於最前面，提供 4 步驟快速上手指南。
+  - 新增 **常用指令速查表** 與 **常見問題 Q&A**。
+  - 將詳細說明移至 **🏗️ 啟動與關閉服務** 等後續章節。
+  - 新增 **Network Resource is still in use** 警告處理說明。
+  - 新增 **APP_KEY 診斷流程**：包含查看日誌指令、錯誤訊息識別與修復步驟。

@@ -4,6 +4,64 @@
 
 ---
 
+## 🚀 Quick Start (快速開始)
+
+> **第一次使用？跟著這 4 步驟就能啟動專案！**
+
+### 步驟 1：啟動 Docker 容器
+
+```bash
+# 輕量模式（推薦新手）
+docker compose up -d
+
+# 完整模式（含 MySQL + Adminer）
+docker compose --profile mysql up -d
+```
+
+### 步驟 2：設定 APP_KEY（重要！）
+
+```bash
+# 複製環境設定檔
+docker exec -it php-learn cp .env.example .env
+
+# 生成加密金鑰
+docker exec -it php-learn php artisan key:generate
+```
+
+### 步驟 3：訪問網站
+
+打開瀏覽器訪問：**[http://localhost:8080](http://localhost:8080)**
+
+### 步驟 4：停止服務
+
+```bash
+# 完整關閉（如果啟動時有加 --profile mysql）
+docker compose --profile mysql down
+```
+
+---
+
+### 📋 常用指令速查
+
+| 功能 | 指令 |
+|------|------|
+| 進入 Artisan | `docker exec -it php-learn php artisan [command]` |
+| 進入 Tinker | `docker exec -it php-learn php artisan tinker` |
+| 查看日誌 | `docker compose logs -f php` |
+| 重啟服務 | `docker compose restart` |
+
+### ⚠️ 常見問題
+
+**Q: 頁面顯示 500 錯誤？**  
+→ 執行步驟 2 設定 APP_KEY（見 [完整診斷流程](#-app_key-設定重要)）
+
+**Q: Network Resource is still in use？**  
+→ 使用 `docker compose --profile mysql down` 完整關閉（見 [詳細說明](#-啟動與關閉服務)）
+
+---
+
+## 詳細說明
+
 ## 環境
 Windows 11 + WSL2 + Docker Desktop
 
@@ -19,9 +77,9 @@ Windows 11 + WSL2 + Docker Desktop
 
 ---
 
-## 快速啟動
+## 🏗️ 啟動與關閉服務
 
-### 1. 啟動模式切換
+### 啟動模式
 
 你可以根據練習需要決定是否啟動 MySQL（以節省電腦資源）：
 
@@ -35,13 +93,12 @@ Windows 11 + WSL2 + Docker Desktop
   docker compose --profile mysql up -d
   ```
 
-### 2. 重啟或進入環境
-- **進入介面**：[http://localhost:8080](http://localhost:8080)
-- **停止所有服務**：
-  ```bash
-  # 如果你有啟動 mysql profile，必須帶上 profile 才能完全關閉
-  docker compose --profile mysql down
-  ```
+### 停止服務
+
+```bash
+# 如果你有啟動 mysql profile，必須帶上 profile 才能完全關閉
+docker compose --profile mysql down
+```
 
 > ⚠️ **注意：為什麼只打 `docker compose down` 會殘留 MySQL？**
 > 因為 MySQL 目錄被歸類在 `mysql` profile 中。如果你在啟動時使用了 profile，但關閉時沒加，Docker 會認定你「只想關閉預設服務 (PHP/Nginx)」，從而導致 MySQL 容器繼續在背景執行。
@@ -91,14 +148,15 @@ docker compose --profile mysql down
 
 > 💡 **記住**：**啟動時用了什麼 profile，關閉時就要加上相同的 profile**，這樣才能確保所有資源都被正確清理。
 
-3. **使用 Artisan 與 Tinker**：
-   ```bash
-   # 進入 Tinker 練習語法
-   docker exec -it php-learn php artisan tinker
+### 使用 Artisan 與 Tinker
 
-   # 執行 Artisan 指令
-   docker exec -it php-learn php artisan [command]
-   ```
+```bash
+# 進入 Tinker 練習語法
+docker exec -it php-learn php artisan tinker
+
+# 執行 Artisan 指令
+docker exec -it php-learn php artisan [command]
+```
 
 ---
 
