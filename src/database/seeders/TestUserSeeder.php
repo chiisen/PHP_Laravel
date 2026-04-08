@@ -13,6 +13,11 @@ class TestUserSeeder extends Seeder
      */
     public function run(): void
     {
+        if (!app()->isLocal()) {
+            $this->command->error('❌ 此 Seeder 僅限 local 環境執行！');
+            return;
+        }
+
         $users = [
             [
                 'name' => 'Admin User',
