@@ -14,6 +14,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - 新增 `AuthController` 處理 `login` 與 `logout` 請求。
 - 在 `User` 模型中啟用 `HasApiTokens` 以支援 API 認證。
 - 更新 `routes/api.php` 加入認證相關路由。
+- 新增 `src/scripts/evaluate_structure.sh`，可量測結構內聚與命名空間一致性。
+- 新增 `docs/HARNESS_ENGINEERING_STRUCTURE.md`，記錄平行原型與決策矩陣。
 
 ### Changed
 - **README.md 結構重組**：
@@ -22,3 +24,5 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - 將詳細說明移至 **🏗️ 啟動與關閉服務** 等後續章節。
   - 新增 **Network Resource is still in use** 警告處理說明。
   - 新增 **APP_KEY 診斷流程**：包含查看日誌指令、錯誤訊息識別與修復步驟。
+- API 結構改為 Feature-first：`Auth` 與 `User` 控制器搬移至 `app/Domain/*`。
+- 將 API 登入與註冊驗證規則改由 Domain 內 `FormRequest` 管理，降低控制器耦合。
